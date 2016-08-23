@@ -1,6 +1,6 @@
-Dolphin Of The Day
+Technologic Systems' Message Of The Day
 ==================
-Collaboratively draw your daily Dolphin Of The Day.
+Collaboratively draw daily messages of the day.
 
 
 Installation and usage
@@ -8,10 +8,10 @@ Installation and usage
 
 ::
 
-    git clone git@github.com:wearespindle/dotd.git
-    cd dotd
+    git clone git@bitbucket.org:dhildreth/ts-motd.git
+    cd ts-motd
     npm install
     gulp
     cp settings.json.example settings.json
-    node-dev app.js
+    node app.js
     # Happy drawing!
