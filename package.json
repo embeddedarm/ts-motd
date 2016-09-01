@@ -1,7 +1,7 @@
 {
-  "name": "DOTD",
-  "author": "Spindle Devhouse",
-  "description": "Dolphin Of The Day - Draw Dolphin Words every day!",
+  "name": "TS-MOTD",
+  "author": "Derek Hildreth",
+  "description": "Technologic Systems' Message Of The Day",
   "license": "MIT",
   "version": "0.0.5",
   "engines": {
@@ -9,7 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wearespindle/dolphinboard/"
+    "url": "https://bitbucket.org/dhildreth/ts-motd"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "monitor": "nodemon app.js",
+    "deploy": "gcloud app deploy"
   },
   "dependencies": {
     "compression": "^1.5.2",

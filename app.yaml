@@ -1,0 +1,10 @@
+runtime: custom
+vm: true
+
+skip_files:
+  - ^(.*/)?.*/node_modules/.*$
+
+network:
+  forwarded_ports:
+  - 65080
+  instance_tag: websocket

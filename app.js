@@ -120,7 +120,11 @@ app.get('/dotd.json', function(req, res) {
 })
 
 
-server.listen(settings.port, function() {
+server.listen(process.env.PORT || settings.port, function() {
+    console.log('App listening on port %s', server.address().port);
+    console.log('Press Ctrl+C to quit.');
+
+
     moment.locale(settings.language)
     app.engine('handlebars', exphbs({defaultLayout: 'main'}))
     app.set('view engine', 'handlebars')
