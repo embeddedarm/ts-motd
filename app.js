@@ -3,6 +3,7 @@
 var express = require('express');
 var path = require('path');
 GLOBAL.appDir = path.dirname(require.main.filename);
+var compression = require('compression');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,9 +11,12 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 GLOBAL.app = express();
+app.env="production";
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 GLOBAL.loki = require('lokijs');
+
 
 app.fabric = require('fabric').fabric;
 GLOBAL.fabric = app.fabric;
@@ -31,6 +35,8 @@ app.use(function(req, res, next){
   res.io = io;
   next();
 });
+
+app.use(compression());
 
 io.on('connection', function(socket) {
     new Events(socket);
