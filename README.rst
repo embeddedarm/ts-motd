@@ -23,9 +23,21 @@ Prepare the application.
 ::
     cd ts-motd
     npm install
-    npm install -g gulp
+    sudo npm install -g gulp
     gulp
 
 Run the application.
 ::
     DEBUG=myapp:* npm start
+
+For running on production server, we'll use pm2 process manager.
+::
+    sudo npm install -g pm2
+
+Then, we'll tell pm2 to start the application. 
+::
+    pm2 start ./bin/www -i 0 --name "ts-motd" --env "production"
+
+Then, we'll setup pm2 to startup the program on startup.  Be sure to run the command it outputs.
+::
+    pm2 startup systemd
