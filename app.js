@@ -33,7 +33,6 @@ app.use(function(req, res, next){
 });
 
 io.on('connection', function(socket) {
-    console.log("io.on connection!");
     new Events(socket);
 });
 

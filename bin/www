@@ -4,26 +4,11 @@
 
 function getCanvas() {
 
-    console.log("getCanvas() called"); 
-
     var _canvas = fabric.createCanvasForNode(1920,1080);
     var collection = app.db.addCollection('paths', {indices: ['uuid']});
-
-    console.log("Querying for fabricObjects");
-    //var fabricObjects = collection.find({day: parseInt(moment().format('e'), 10)}).reverse()
-    //var fabricObjects = collection.find({day: 2}).reverse();
     var fabricObjects = collection.find({uuid: { '$ne': ' ' }}).reverse();
 
-    //var results = collection.where(function(obj) {
-    //    return (obj.uuid != '');
-    //});
-
-    //console.log(results);
-
-    console.log(collection.data);
-
     if(fabricObjects) {
-        console.log("Found fabricObjects");
         fabricObjects.forEach(function(obj) {
             // Revive the objects property for a group.
             if(obj.type === 'group') {
@@ -31,14 +16,9 @@ function getCanvas() {
             }
         });
     }
-    else {
-        console.log("No fabricObjects found");
-    }
 
     fabric.util.enlivenObjects(fabricObjects, function(objects) {
-        console.log("In enlivenObjects fabric util, going to loop through objects");
         objects.forEach(function(o) {
-            console.log("Adding object to _canvas");
             // Please note that a deserialize custom brush(stroke property) is
             // an anonymous function coming from the client. Potential recipe
             // for security issues(!).
@@ -46,7 +26,6 @@ function getCanvas() {
         });
     });
 
-    console.log("Returning _canvas object");
     return _canvas;
 }
 
@@ -147,28 +126,22 @@ function onListening() {
   app.fabric = require('fabric').fabric;
   GLOBAL.fabric = app.fabric;
 
-  console.log("Calling common.init() -- client side");
   common.init(app);
 
-  console.log("Creating new loki db");
   app.db = new loki('db.json', {
       autosave: true,
       autosaveInterval: 3000,
       autoload: true,
       autoloadCallback: function() {
-          console.log("new loki callback called");
           // if database did not exist it will be empty so I will intitialize here
           var collection = app.db.getCollection('paths')
           if (!collection) {
-              console.log("A database did not exist, creating a new collection");
               collection = app.db.addCollection('paths', {indices: ['uuid']});
               collection.ensureUniqueIndex('uuid');
           }
 
-          console.log("Grabbing canvas from within loki callback");
           app.canvas = getCanvas();
       },
       env: 'NODEJS',
   });
-
 }
