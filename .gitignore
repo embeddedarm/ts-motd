@@ -1,0 +1,7 @@
+db.json
+*.swp
+*.swo
+*.swn
+*.bak
+node_modules/*
+public/javascripts/ts-motd.js
