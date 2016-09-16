@@ -39,7 +39,6 @@ app.use(function(req, res, next){
 app.use(compression());
 
 io.on('connection', function(socket) {
-    console.log("io.on connection!");
     new Events(socket);
 });
 
