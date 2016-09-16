@@ -1,153 +1,81 @@
-'use strict'
+// SERVER SIDE
 
-GLOBAL.app = require('express')()
-var compression = require('compression')
-var exphbs = require('express-handlebars')
-var express = require('express')
-var favicon = require('serve-favicon')
-var Io = require('socket.io')
-var http = require('http')
-var loki = require('lokijs')
-var moment = require('moment')
+var express = require('express');
+var path = require('path');
+GLOBAL.appDir = path.dirname(require.main.filename);
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var routes = require('./routes/index');
+var users = require('./routes/users');
+GLOBAL.app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+GLOBAL.loki = require('lokijs');
 
-var common = require('./lib/common')
-var Events = require('./lib/events')
+app.fabric = require('fabric').fabric;
+GLOBAL.fabric = app.fabric;
 
-var server = http.Server(app)
-var settings = require('./settings.json')
-var io = Io(server)
+var Events = require('./lib/events');
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-/**
- *  Rebuild the canvas from Loki.
- */
-function getCanvas() {
-    var _canvas = fabric.createCanvasForNode(1920, 1080)
-    var collection = app.db.addCollection('paths', {indices: ['uuid']})
+// uncomment after placing your favicon in /public
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-    var fabricObjects = collection.find({day: parseInt(moment().format('e'), 10)}).reverse()
+// Placement of this middleware function does matter.
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+});
 
-    if(fabricObjects) {
-        fabricObjects.forEach(function(obj) {
-            // Revive the objects property for a group.
-            if(obj.type === 'group') {
-                obj.objects = obj.__objects
-            }
-        })
-    }
-    fabric.util.enlivenObjects(fabricObjects, function(objects) {
-        objects.forEach(function(o) {
-            // Please note that a deserialize custom brush(stroke property) is
-            // an anonymous function coming from the client. Potential recipe
-            // for security issues(!).
-            _canvas.add(o)
-        })
-    })
-    return _canvas
+io.on('connection', function(socket) {
+    console.log("io.on connection!");
+    new Events(socket);
+});
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  console.log("In development environment");
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
 }
 
-// Reload the page when the next day occurs.
-setInterval(function() {
-    var currentDay = parseInt(moment().format('e'), 10)
-    if(currentDay !== app.dayOftheWeek) {
-        app.canvas = getCanvas()
-    }
-}, 3000)
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
 
-
-io.on('connection', function(socket) {new Events(socket)})
-
-app.use(express.static('public'))
-app.use(favicon(__dirname + '/public/img/dolphin.png'))
-app.use(compression())
-
-
-app.get('/', function(req, res) {
-    var serializedCanvas = JSON.parse(JSON.stringify(app.canvas))
-    serializedCanvas.objects.forEach(function(rawObject, i) {
-        if(rawObject.type === 'group') {
-            // Somehow this is set to black during group serialization...
-            delete serializedCanvas.objects[i].fill
-        }
-    })
-
-    res.render('home', {canvasState: JSON.stringify(serializedCanvas)})
-})
-
-
-/**
- * Present the droodle data as a javascript file that can be
- * retrieved as GZIP script.
- */
-app.get('/js/state.js', function(req, res) {
-    var serializedCanvas = JSON.parse(JSON.stringify(app.canvas))
-    serializedCanvas.objects.forEach(function(obj, i) {
-        if(obj.type === 'group') {
-            // Somehow this is set to black during group serialization...
-            delete serializedCanvas.objects[i].fill
-            delete serializedCanvas.objects[i].stroke
-        }
-    })
-
-    res.send('window.initialState = ' + JSON.stringify(serializedCanvas) + ';')
-})
-
-
-/**
- * Retrieve the current DOTD droodle as a PNG.
- */
-app.get('/dotd.png', function(req, res) {
-    res.writeHead(200, { 'Content-Type': 'image/png' })
-    var stream = canvas.createPNGStream()
-    stream.on('data', function(chunk) {res.write(chunk)})
-    stream.on('end', function() {res.end()})
-})
-
-
-/**
- * Retrieve the current DOTD droodle as a SVG.
- */
-app.get('/dotd.svg', function(req, res) {
-    res.send(canvas.toSVG())
-})
-
-
-/**
- * Retrieve the current DOTD droodle as a serialized Fabric.js canvas.
- */
-app.get('/dotd.json', function(req, res) {
-    res.send(JSON.parse(JSON.stringify(app.canvas)))
-})
-
-
-server.listen(process.env.PORT || settings.port, function() {
-    console.log('App listening on port %s', server.address().port);
-    console.log('Press Ctrl+C to quit.');
-
-
-    moment.locale(settings.language)
-    app.engine('handlebars', exphbs({defaultLayout: 'main'}))
-    app.set('view engine', 'handlebars')
-    app.dayOftheWeek = parseInt(moment().format('e'), 10)
-    app.fabric = require('fabric').fabric
-    GLOBAL.fabric = app.fabric
-
-    common.init(app)
-
-    app.db = new loki('db.json', {
-        autosave: true,
-        autosaveInterval: 3000,
-        autoload: true,
-        autoloadCallback: function() {
-            // if database did not exist it will be empty so I will intitialize here
-            var collection = app.db.getCollection('paths')
-            if (!collection) {
-                collection = app.db.addCollection('paths', {indices: ['uuid']})
-                collection.ensureUniqueIndex('uuid')
-            }
-
-            app.canvas = getCanvas()
-        },
-        env: 'NODEJS',
-    })
-})
+module.exports = {app: app, server: server};

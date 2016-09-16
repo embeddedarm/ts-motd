@@ -1,5 +1,7 @@
-node_modules/
-public/css/styles.css
-public/js/dotd.js
-settings.json
-
+db.json
+*.swp
+*.swo
+*.swn
+*.bak
+node_modules/*
+public/javascripts/ts-motd.js
