@@ -6,24 +6,33 @@ Collaboratively draw daily messages of the day.
 Installation and usage
 ----------------------
 
+Install required packages for node.js and npm install script
+for Ubuntu 16.04.
+
+::
+    sudo apt-get install python-software-properties
+
+Download and install setup script.
+
+::
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+
+Clone the repository.
+
 ::
 
-    sudo apt-get install nodejs pkg-config libcairo2-dev libjpeg-dev libgif-dev
     git clone git@bitbucket.org:dhildreth/ts-motd.git
+
+Prepare the applciation.
+
+::
     cd ts-motd
     npm install
+    npm install -g gulp
     gulp
-    cp settings.json.example settings.json
-    node app.js
-    # Happy drawing!
 
-You may need to update nodejs and/or npm.
+Run the application.
 
-NPM:
-    curl -L https://www.npmjs.com/install.sh | sh
-
-NVM:
-Node.js version manager script from https://github.com/creationix/nvm.
-
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash
+::
+    DEBUG=myapp:* npm start
 
