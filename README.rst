@@ -42,3 +42,4 @@ Then, we'll setup pm2 to startup the program on startup.  Be sure to run the com
 ::
     pm2 startup systemd
     sudo su -c "env PATH=$PATH:/usr/bin pm2 startup systemd -u derek --hp /home/derek"
+    pm2 save
