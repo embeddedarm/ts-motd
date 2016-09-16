@@ -5,3 +5,4 @@ db.json
 *.bak
 node_modules/*
 public/javascripts/ts-motd.js
+public/stylesheets/styles.css
