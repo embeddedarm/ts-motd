@@ -36,6 +36,7 @@ function getCanvas() {
 var app = require('../app').app;
 var debug = require('debug')('ts-motd:server');
 var http = require('http');
+var chmod = require('chmod');
 
 /**
  * Get port from environment and store in Express.
@@ -144,4 +145,8 @@ function onListening() {
       },
       env: 'NODEJS',
   });
+
+  // This needs to be r/w for everybody, else Stranger Things happen 
+  chmod('db.json', 777);
+
 }
