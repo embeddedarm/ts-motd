@@ -21,7 +21,6 @@ router.get('/', function(req, res, next) {
  * retrieved as GZIP script.
  */
 router.get('/js/state.js', function(req, res) {
-    console.log(JSON.stringify(app.canvas));
     var serializedCanvas = JSON.parse(JSON.stringify(app.canvas));
     serializedCanvas.objects.forEach(function(obj, i) {
         if(obj.type === 'group') {

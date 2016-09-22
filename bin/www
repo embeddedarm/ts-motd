@@ -122,7 +122,7 @@ function onListening() {
   debug('Listening on ' + bind);
 
   // Specific server side application initialization
-  console.log('Server listen');
+  console.log('Server listen on port ' + addr.port);
 
   app.fabric = require('fabric').fabric;
   GLOBAL.fabric = app.fabric;
