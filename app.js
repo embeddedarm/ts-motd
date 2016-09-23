@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
     new Events(socket);
 });
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
