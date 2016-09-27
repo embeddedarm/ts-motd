@@ -4,11 +4,14 @@
 
 function getCanvas() {
 
+    console.log(Date.now() + " -- bin/www -- getCanvas()");
+
     var _canvas = fabric.createCanvasForNode(1920,1080);
     var collection = app.db.addCollection('paths', {indices: ['uuid']});
     var fabricObjects = collection.find({uuid: { '$ne': ' ' }}).reverse();
 
     if(fabricObjects) {
+        console.log(Date.now() + " -- bin/www -- getCanvas() -- there were fabricObjects");
         fabricObjects.forEach(function(obj) {
             // Revive the objects property for a group.
             if(obj.type === 'group') {
@@ -22,6 +25,7 @@ function getCanvas() {
             // Please note that a deserialize custom brush(stroke property) is
             // an anonymous function coming from the client. Potential recipe
             // for security issues(!).
+            console.log(Date.now() + " -- bin/www -- getCanvas() -> enlivenObjects before adding to canvas");
             _canvas.add(o);
         });
     });
@@ -127,8 +131,10 @@ function onListening() {
   app.fabric = require('fabric').fabric;
   GLOBAL.fabric = app.fabric;
 
+  console.log("Initializing common");
   common.init(app);
 
+  console.log("Instantiating loki db");
   app.db = new loki('/tmp/ts-motd-db.json', {
       autosave: true,
       autosaveInterval: 3000,
@@ -137,10 +143,14 @@ function onListening() {
           // if database did not exist it will be empty so I will intitialize here
           var collection = app.db.getCollection('paths')
           if (!collection) {
+              console.log("Collection does not exist, creating");
               collection = app.db.addCollection('paths', {indices: ['uuid']});
               collection.ensureUniqueIndex('uuid');
           }
+          else 
+              console.log("Collection already exists");
 
+          console.log("Fetching canvas to store into app.canvas");
           app.canvas = getCanvas();
       },
       env: 'NODEJS',
