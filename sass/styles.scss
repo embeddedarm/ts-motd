@@ -187,3 +187,17 @@ canvas {
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+div#text-options {
+    display: none;
+    /*border: 1px solid #767779;*/
+    padding: 5px;
+    height: 33px;
+    margin: 0px 0px 10px 0px;
+    /*float: left;*/
+
+    input#text-color {
+        /*width: 30px;*/
+        /*height: 30px;*/
+    }
+}
