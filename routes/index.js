@@ -28,6 +28,9 @@ router.get('/js/state.js', function(req, res) {
             delete serializedCanvas.objects[i].fill;
             delete serializedCanvas.objects[i].stroke;
         }
+
+        // Preventing object:added loop.
+        obj.remote = true;
     });
 
     res.send('window.initialState = ' + JSON.stringify(serializedCanvas) + ';');
