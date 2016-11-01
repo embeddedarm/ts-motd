@@ -6,63 +6,10 @@ html
     link(rel='stylesheet', href='/stylesheets/styles.css')
     script(src="https://use.fontawesome.com/34ebf7ba8a.js")
     script(src='/jquery/jquery.js')
-    script(src='/fabric/fabric.js')
-    script(src='/socket.io/socket.io.js')
-    script(src='/js/state.js')
-    script(src='/javascripts/ts-motd.js')
+    block javascript
   body
 
-    span#open-nav &#9776;
- 
-    div#mySidenav(class="sidenav")
-      div(class="inner")
-        a#close-nav(href="javascript:void(0)", class="closebtn") &times;
-     
-        div(class="form-group")
-          button#drawing-mode(class="btn btn-default") 
-            i.fa.fa-i-cursor
-            |  Enter Edit Mode
+    include includes/nav-icons.pug
 
-        div(class="form-group")
-          label(for="canvas-background-picker") Background:
-          input#canvas-background-picker(class="form-control", type="color", value="#FFFFFF", bind-value-to="canvasBgColor")
+    block content
 
-        div(class="form-group") 
-          label(for="drawing-color") Line color:
-          input#drawing-color(class="form-control", type="color", value="#005E7A")
-
-        div(class="form-group") 
-          label(for="drawing-line-width") Line width:
-          input#drawing-line-width(class="form-control", type="number", value="10", min="0", max="150")
-
-
-        div(class="form-group")
-          button#insert-text(class="btn btn-default")
-            i.fa.fa-font
-            |   Insert Text
-
-        div#text-options(class="text-options")
-          div(class="form-group") 
-            label(for="text-color") Text color:
-            input#text-color(class="form-control", type="color", value="#ff8000")
-
-        div(class="form-group")
-          div(class="fileUpload btn btn-default")
-            span
-              i.fa.fa-file-image-o
-              |  Insert Image
-            input#insert-image(type="file", class="upload")
-
-        div(class="form-group")
-          button#clear-canvas(class="btn btn-danger")
-            i.fa.fa-trash-o
-            |  Clear Whiteboard
-
-        //-div(class="form-group") 
-        //-  label(for="text-stroke-color") Line color:
-        //-  input#text-stroke-color(class="form-control", type="color", value="#255eaf")
-
-
-    div#main
-      div#guide
-      block content

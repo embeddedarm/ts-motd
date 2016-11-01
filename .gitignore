@@ -4,5 +4,5 @@ db.json
 *.swn
 *.bak
 node_modules/*
-public/javascripts/ts-motd.js
+public/javascripts/
 public/stylesheets/styles.css
