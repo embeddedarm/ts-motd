@@ -1,0 +1,12 @@
+div.nav-icons-container
+  div.nav-icons
+    unless current == 'home'
+      a.no-color(href="/")
+        span.fa-stack.fa-2x
+          i.fa.fa-circle.fa-stack-2x
+          i.fa.fa-pencil.fa-stack-1x.fa-inverse
+    unless current == 'calendar'
+      a.no-color(href="/calendar")
+        span.fa-stack.fa-2x
+          i.fa.fa-circle.fa-stack-2x
+          i.fa.fa-calendar.fa-stack-1x.fa-inverse

@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
       }
   });
 
-  res.render('index', { title: 'TS Message of the Day', canvasState: JSON.stringify(serializedCanvas) });
+  res.render('index', { title: 'TS Message of the Day', current: 'home', canvasState: JSON.stringify(serializedCanvas) });
 });
 
 /**
@@ -42,6 +42,10 @@ router.get('/jquery/jquery.js', function(req, res, next) {
 
 router.get('/fabric/fabric.js', function(req, res, next) {
   res.sendFile(path.resolve(appDir + '/../node_modules/fabric/dist/fabric.js'));
+});
+
+router.get('/moment/moment.js', function(req, res, next) {
+  res.sendFile(path.resolve(appDir + '/../node_modules/moment/min/moment.min.js'));
 });
 
 /**
