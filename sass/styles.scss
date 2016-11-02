@@ -1,5 +1,30 @@
 $link-color: #818181;
 $link-color-hover: #f1f1f1;
+$nav-background-color: #383b44;
+
+$tpc-width: 800px;
+$tpc-height: 600px;
+
+$primary-color-dark:   #455A64;
+$primary-color:        #607D8B;
+$primary-color-light:  #CFD8DC;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #FFC107;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+
+$material-blue: #2196F3;
+$material-blue-dark: #1976D2;
+$material-red: #F44336;
+$material-red-dark: #D32F2F; 
+$material-deep-orange: #FF5722;
+$material-orange: #FF9800;
+
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
+$primary-font: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+$secondary-font: 'Open Sans',sans-serif;
 
 * {
   margin:0;
@@ -10,7 +35,14 @@ html, body {
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family: "Lato", sans-serif;
+  font-family: $primary-font;
+  font-weight: 300;
+}
+
+.body-container {
+  width: 100%;
+  height: 100%;
+  background-color: $primary-color;
 }
 
 div#guide {
@@ -28,15 +60,19 @@ canvas {
   display:block;
 }
 
+/*a {
+  color: $nav-background-color;
+}*/
+
 .sidenav {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 9999;
   top: 0;
   left: 0;
   color: #FFF;
-  background-color: #383b44;
+  background-color: $primary-color-dark;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -82,12 +118,12 @@ canvas {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: $link-color;
+    color: $primary-color-text;
     display: block;
     transition: 0.3s;
     
     &:hover {
-      color: $link-color-hover;
+      color: $primary-color-dark;
     }
   }
 
@@ -104,7 +140,7 @@ canvas {
 .offcanvas {
   a {
     &:focus{
-      color: $link-color-hover;
+      color: $primary-color-dark;
     }
   }
 }
@@ -138,14 +174,14 @@ canvas {
 
 .btn-info {
   color: #fff;
-  background-color: #5bc0de;
-  border-color: #46b8da;
+  background-color: $material-blue;
+  border-color: $material-blue-dark;
 }
 
 .btn-danger {
   color: #fff;
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: $material-red;
+  border-color: $material-red-dark;
 }
 
 .btn {
@@ -201,3 +237,124 @@ div#text-options {
         /*height: 30px;*/
     }
 }
+
+.nav-icons-container {
+  position: absolute;
+  top: $tpc-height - 65;
+  height:50px;
+  width: $tpc-width;
+  z-index: 9999;
+}
+
+.nav-icons {
+    height:65px;
+    position:absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    color: $primary-color-dark;
+
+    a {
+		color: $primary-color-dark;
+    }
+}
+
+div.tpc-container {
+    height:$tpc-height - 70px; // - 70px to account for navigation buttons
+    width:$tpc-width - 1px;
+    overflow-x: auto;
+}
+
+.fadeout {
+    display: none; // Until we're ready for it
+    position: absolute;
+    top: 466px;
+    bottom: 4em;
+
+    height: 4em;
+    width: 780px;
+
+    background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    ); 
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+} 
+
+#events-loading-spinner {
+    position: relative;
+    top: 250px;
+    width: 100%;
+    color: $accent-color;
+}
+
+div#pto-list-container {
+  margin-bottom: 20px;
+}
+
+
+ul#pto-list,
+ul#events-list {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: $primary-text-color;
+  font-size: 18px;
+
+  li {
+    display: table;
+    border-left: 5px solid $accent-color; 
+    border-top: 1px solid $divider-color;
+    border-right: 3px solid $divider-color;
+    height: 30px;
+    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: $primary-color-text; 
+    overflow: hidden;
+    white-space: nowrap;
+
+    p {
+      display: table-cell;
+      vertical-align: middle;
+
+      span.summary {
+        color: $primary-text-color;
+		display: block;
+      }
+
+      span.when {
+        color: $secondary-text-color;
+		display: block;
+        font-size: 14px;
+      }
+    }
+	
+  }
+}
+
+ul#pto-list {
+  li {
+    border-left: 5px solid $material-blue;
+  }
+}
+
+/*
+::-webkit-scrollbar {
+      width: 15px;
+}
+
+::-webkit-scrollbar-track {
+      background-color: white;
+}
+ 
+::-webkit-scrollbar-thumb {
+      background-color: $primary-color-dark;
+}
+*/

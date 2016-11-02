@@ -1,0 +1,26 @@
+extends layout
+
+block javascript
+  script(src='/moment/moment.js')
+  script(src='/javascripts/calendar.js')
+  script(src="https://apis.google.com/js/client.js?onload=checkAuth")
+
+
+block content
+  div.body-container
+
+    div.tpc-container
+
+      div#authorize-div(style="display: none")
+        span Authorize access to Google Calendar API
+        button#authorize-button(onclick="handleAuthClick(event)")  Authorize
+
+      i#events-loading-spinner.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
+
+      div#pto-list-container
+        ul#pto-list(style="display:none;")
+
+      div#events-list-container
+        ul#events-list(style="display:none;")
+        div.fadeout
+
