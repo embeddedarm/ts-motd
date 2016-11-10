@@ -298,7 +298,8 @@ div#pto-list-container {
 
 
 ul#pto-list,
-ul#events-list {
+ul#events-list,
+div#no-events {
   margin-bottom: 10px;
   margin-top: 10px;
   color: $primary-text-color;
@@ -336,6 +337,12 @@ ul#events-list {
       }
     }
 	
+  }
+}
+
+div#no-events {
+  li {
+    border-left: 5px solid $material-blue-dark;
   }
 }
 

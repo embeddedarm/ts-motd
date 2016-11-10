@@ -3,7 +3,9 @@ extends layout
 block javascript
   script(src='/moment/moment.js')
   script(src='/javascripts/calendar.js')
-  script(src="https://apis.google.com/js/client.js?onload=checkAuth")
+  script(src="https://apis.google.com/js/client.js?onload=onLoadCallback", async, defer)
+  script(type='text/javascript').
+      var events =!{JSON.stringify(events)}
 
 
 block content
@@ -22,5 +24,9 @@ block content
 
       div#events-list-container
         ul#events-list(style="display:none;")
-        div.fadeout
 
+        div#no-events(style="display:none;")
+          li
+            p
+              span.summary Nothing except...
+              span.when Have a great day!

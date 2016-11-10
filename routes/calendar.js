@@ -1,140 +1,88 @@
 var express = require('express');
+var moment = require('moment');
+
 var router = express.Router();
 
-//var fs = require('fs');
-//var readline = require('readline');
-//var google = require('googleapis');
-//var googleAuth = require('google-auth-library');
-//
-//// If modifying these scopes, delete your previously saved credentials
-//// at ~/.credentials/calendar-nodejs-quickstart.json
-//var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
-//var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-//    process.env.USERPROFILE) + '/.credentials/';
-//var TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
-//
-///**
-// * Create an OAuth2 client with the given credentials, and then execute the
-// * given callback function.
-// *
-// * @param {Object} credentials The authorization client credentials.
-// * @param {function} callback The callback to call with the authorized client.
-// */
-//function authorize(credentials, callback) {
-//  var clientSecret = credentials.installed.client_secret;
-//  var clientId = credentials.installed.client_id;
-//  var redirectUrl = credentials.installed.redirect_uris[0];
-//  var auth = new googleAuth();
-//  var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-//
-//  // Check if we have previously stored a token.
-//  fs.readFile(TOKEN_PATH, function(err, token) {
-//    if (err) {
-//      getNewToken(oauth2Client, callback);
-//    } else {
-//      oauth2Client.credentials = JSON.parse(token);
-//      callback(oauth2Client);
-//    }
-//  });
-//}
-//
-///**
-// * Get and store new token after prompting for user authorization, and then
-// * execute the given callback with the authorized OAuth2 client.
-// *
-// * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
-// * @param {getEventsCallback} callback The callback to call with the authorized
-// *     client.
-// */
-//function getNewToken(oauth2Client, callback) {
-//  var authUrl = oauth2Client.generateAuthUrl({
-//    access_type: 'offline',
-//    scope: SCOPES
-//  });
-//  console.log('Authorize this app by visiting this url: ', authUrl);
-//  var rl = readline.createInterface({
-//    input: process.stdin,
-//    output: process.stdout
-//  });
-//  rl.question('Enter the code from that page here: ', function(code) {
-//    rl.close();
-//    oauth2Client.getToken(code, function(err, token) {
-//      if (err) {
-//        console.log('Error while trying to retrieve access token', err);
-//        return;
-//      }
-//      oauth2Client.credentials = token;
-//      storeToken(token);
-//      callback(oauth2Client);
-//    });
-//  });
-//}
-//
-///**
-// * Store token to disk be used in later program executions.
-// *
-// * @param {Object} token The token to store to disk.
-// */
-//function storeToken(token) {
-//  try {
-//    fs.mkdirSync(TOKEN_DIR);
-//  } catch (err) {
-//    if (err.code != 'EEXIST') {
-//      throw err;
-//    }
-//  }
-//  fs.writeFile(TOKEN_PATH, JSON.stringify(token));
-//  console.log('Token stored to ' + TOKEN_PATH);
-//}
-//
-//function listEvents(auth) {
-//  var calendar = google.calendar('v3');
-//  calendar.events.list({
-//    auth: auth,
-//    calendarId: 'primary',
-//    timeMin: (new Date()).toISOString(),
-//    maxResults: 10,
-//    singleEvents: true,
-//    orderBy: 'startTime'
-//  }, function(err, response) {
-//    if (err) {
-//      console.log('The API returned an error: ' + err);
-//      return;
-//    }
-//
-//    var events = response.items;
-//
-//
-//    if (events.length == 0) {
-//      console.log('No upcoming events found.');
-//    } else {
-//      console.log('Upcoming 10 events:');
-//      for (var i = 0; i < events.length; i++) {
-//        var event = events[i];
-//        var start = event.start.dateTime || event.start.date;
-//        console.log('%s - %s', start, event.summary);
-//      }
-//    }
-//  });
-//}
+var google = require('googleapis');
+var OAuth2 = google.auth.OAuth2;
 
+var key = require('../ts-motd-f294280ab8c3.json');
+var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+
+var jwtClient = new google.auth.JWT(
+  key.client_email,
+  null,
+  key.private_key,
+  SCOPES,
+  null
+);
+
+var calendar = google.calendar('v3');
+var client = google.calendar('v3');
+
+var primaryCalendarId = 'technologicsystems@gmail.com';
+var ptoCalendarId = 'fprj1ujdu00buolhrpjhpru9go@group.calendar.google.com';
+var birthdaysCalendarId = '3kcght187ppd9tt93hmthturfk@group.calendar.google.com';
+var holidaysCalendarId = 'en.usa#holiday@group.v.calendar.google.com';
+var purchasingCalendarId = 'c83gf0lh4f8d7nghm5dt4f27t4@group.calendar.google.com';
+var facilitiesCalendarId = 'p9u47hh2n4pcp4946lv5a6ugnk@group.calendar.google.com';
+var marketingTeamCalendarId = 'raf45lmkm3btlgdcef1psfvt5o@group.calendar.google.com';
+
+var paramsPrimary = {
+    'auth': jwtClient,
+    'calendarId': primaryCalendarId,
+    'timeMin': (new Date()).toISOString(),
+    'timeMax': moment(new Date()).add(2, 'days').format(),
+    'showDeleted': false,
+    'singleEvents': true,
+    'maxResults': 15,
+    'orderBy': 'startTime'
+};
+
+var paramsPto = {
+    'auth': jwtClient,
+    'calendarId': ptoCalendarId,
+    'timeMin': (new Date()).toISOString(),
+    'timeMax': moment(new Date()).add(1, 'days').format(),
+    'showDeleted': false,
+    'singleEvents': true,
+    'maxResults': 15,
+    'orderBy': 'startTime'
+};
 
 /* GET calendar listing */
 router.get('/', function(req, res, next) {
 
-  //fs.readFile('client_secret.json', function processClientSecrets(err, content) {
-  //  if (err) {
-  //    console.log('Error loading client secret file: ' + err);
-  //    return;
-  //  }
-  //  // Authorize a client with the loaded credentials, then call the
-  //  // Google Calendar API.
-  //  authorize(JSON.parse(content), listEvents);
-  //});
+    var events = {};
 
-  res.render('calendar', { title: 'TS Calendar', current: 'calendar' });
+    jwtClient.authorize(function (err, token) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      var primaryList = new Promise(function(resolve, reject) {
+          calendar.events.list(paramsPrimary, function(err, response) {
+              resolve(response);
+          });
+      });
+
+      var ptoList = new Promise(function(resolve, reject) {
+          calendar.events.list(paramsPto, function(err, response) {
+              resolve(response);
+          });
+      });
+
+      Promise.all([primaryList, ptoList]).then(function(response) {
+
+	  	events = {
+	  	   'primary': response[0].items,
+	  	   'pto': response[1].items,
+	  	};
+
+        res.render('calendar', {title: 'TS Calendar', current: 'calendar', events: events});
+      });
+    });
 });
-
-
 
 module.exports = router;
