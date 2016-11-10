@@ -3,7 +3,7 @@ extends layout
 block javascript
   script(src='/moment/moment.js')
   script(src='/javascripts/calendar.js')
-  script(src="https://apis.google.com/js/client.js?onload=onLoadCallback", async, defer)
+  script(src='/javascripts/idle-timer.min.js')
   script(type='text/javascript').
       var events =!{JSON.stringify(events)}
 
