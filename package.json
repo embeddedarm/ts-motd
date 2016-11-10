@@ -16,7 +16,6 @@
     "express": "~4.13.4",
     "fabric": "^1.6.4",
     "google-auth-library": "^0.9.9",
-    "google-batch": "0.0.7",
     "googleapis": "^14.1.0",
     "jquery": "^3.1.0",
     "lokijs": "^1.4.1",
