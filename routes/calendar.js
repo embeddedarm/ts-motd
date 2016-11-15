@@ -28,27 +28,6 @@ var purchasingCalendarId = 'c83gf0lh4f8d7nghm5dt4f27t4@group.calendar.google.com
 var facilitiesCalendarId = 'p9u47hh2n4pcp4946lv5a6ugnk@group.calendar.google.com';
 var marketingTeamCalendarId = 'raf45lmkm3btlgdcef1psfvt5o@group.calendar.google.com';
 
-var paramsPrimary = {
-    'auth': jwtClient,
-    'calendarId': primaryCalendarId,
-    'timeMin': (new Date()).toISOString(),
-    'timeMax': moment(new Date()).add(2, 'days').format(),
-    'showDeleted': false,
-    'singleEvents': true,
-    'maxResults': 15,
-    'orderBy': 'startTime'
-};
-
-var paramsPto = {
-    'auth': jwtClient,
-    'calendarId': ptoCalendarId,
-    'timeMin': (new Date()).toISOString(),
-    'timeMax': moment(new Date()).add(1, 'days').format(),
-    'showDeleted': false,
-    'singleEvents': true,
-    'maxResults': 15,
-    'orderBy': 'startTime'
-};
 
 /* GET calendar listing */
 router.get('/', function(req, res, next) {
@@ -62,12 +41,34 @@ router.get('/', function(req, res, next) {
       }
 
       var primaryList = new Promise(function(resolve, reject) {
+          var paramsPrimary = {
+              'auth': jwtClient,
+              'calendarId': primaryCalendarId,
+              'timeMin': (new Date()).toISOString(),
+              'timeMax': moment(new Date()).add(2, 'days').format(),
+              'showDeleted': false,
+              'singleEvents': true,
+              'maxResults': 15,
+              'orderBy': 'startTime'
+          };
+
           calendar.events.list(paramsPrimary, function(err, response) {
               resolve(response);
           });
       });
 
       var ptoList = new Promise(function(resolve, reject) {
+          var paramsPto = {
+              'auth': jwtClient,
+              'calendarId': ptoCalendarId,
+              'timeMin': (new Date()).toISOString(),
+              'timeMax': moment(new Date()).add(1, 'days').format(),
+              'showDeleted': false,
+              'singleEvents': true,
+              'maxResults': 15,
+              'orderBy': 'startTime'
+          };
+
           calendar.events.list(paramsPto, function(err, response) {
               resolve(response);
           });
