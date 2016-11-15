@@ -1,0 +1,36 @@
+extends layout
+
+block javascript
+  script(src='/moment/moment.js')
+  script(src='/javascripts/analytics.js')
+  script(src='/javascripts/idle-timer.min.js')
+  script(type='text/javascript').
+      var data =!{JSON.stringify(data)}
+
+
+block content
+  div.body-container
+
+    div.tpc-container
+
+      div#real-time-visitors.card.small
+        div.content
+          span#real-time-text.text
+            i#real-time-spinner.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
+          span#real-time-title.title Users Online Now
+
+      div#todays-sessions.card.small
+        div.content
+          span#todays-sessions-text.text.huge
+          span#todays-sessions-title.title Total Sessions Today
+
+      div#todays-new-users.card.small
+        div.content
+          span#todays-new-users-text.text.huge
+          span#todays-new-users-title.title New Users Today
+
+      div#todays-revenue.card.small
+        div.content
+          span#todays-revenue-text.text.huge
+          span#todays-revenue-title.title Revenue Today
+

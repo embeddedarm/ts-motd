@@ -6,7 +6,7 @@ var router = express.Router();
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
 
-var key = require('../ts-motd-f294280ab8c3.json');
+var key = require('../ts-motd-fcced99fd886.json');
 var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 
 var jwtClient = new google.auth.JWT(

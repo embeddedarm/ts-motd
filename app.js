@@ -11,6 +11,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var calendar = require('./routes/calendar');
+var analytics = require('./routes/analytics');
+
 GLOBAL.app = express();
 app.env="production";
 
@@ -52,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/calendar', calendar);
+app.use('/analytics', analytics);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

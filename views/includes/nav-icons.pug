@@ -1,6 +1,3 @@
-audio#clicker(preload="auto")
-  source(src="/audio/click.wav")
-
 div.nav-icons-container
   div.nav-icons
     unless current == 'home'
@@ -13,3 +10,8 @@ div.nav-icons-container
         span#calendar-button.fa-stack.fa-2x
           i.fa.fa-circle.fa-stack-2x
           i.fa.fa-calendar.fa-stack-1x.fa-inverse
+    unless current == 'analytics'
+      a.no-color(href="/analytics").nav-button
+        span#analytics-button.fa-stack.fa-2x
+          i.fa.fa-circle.fa-stack-2x
+          i.fa.fa-bar-chart.fa-stack-1x.fa-inverse

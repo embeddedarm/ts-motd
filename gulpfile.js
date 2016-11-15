@@ -32,11 +32,14 @@ gulp.task('watch', function () {
 
 });
 
-gulp.task('copy-calendar-javascript', function() {
+gulp.task('copy-javascripts', function() {
   gulp.src('./lib/calendar.js')
+  .pipe(gulp.dest('./public/javascripts'));
+
+  gulp.src('./lib/analytics.js')
   .pipe(gulp.dest('./public/javascripts'));
 });
 
 //gulp.task('default', ['sass', 'watch'])
-gulp.task('default', ['sass', 'browserify', 'copy-calendar-javascript']);
+gulp.task('default', ['sass', 'browserify', 'copy-javascripts']);
 
