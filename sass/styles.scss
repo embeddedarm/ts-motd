@@ -381,16 +381,28 @@ div.card {
         color: $secondary-text-color; 
 		display: block;
         position: absolute;
-        bottom: 0px;
+        bottom: 17px;
       }
 
       span.text.huge {
         font-size: 72px;
       }
 
+      span.text.small {
+        font-size: 24px;
+      }
+
       span.text {
         color: $primary-text-color;
 		display: block;
+      }
+
+      span.subtext {
+        color: $secondary-text-color;
+		display: block;
+        position: absolute;
+        bottom: 0px;
+        color: #757575;
       }
     }
 }

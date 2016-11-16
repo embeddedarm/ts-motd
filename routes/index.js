@@ -48,6 +48,10 @@ router.get('/moment/moment.js', function(req, res, next) {
   res.sendFile(path.resolve(appDir + '/../node_modules/moment/min/moment.min.js'));
 });
 
+router.get('/moment/moment-timezone.js', function(req, res, next) {
+  res.sendFile(path.resolve(appDir + '/../node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'));
+});
+
 /**
  * Retrieve the current DOTD droodle as a PNG.
  */

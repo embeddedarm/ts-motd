@@ -1,5 +1,6 @@
 var express = require('express');
-var moment = require('moment');
+var moment = require('moment-timezone');
+moment.tz.setDefault("America/Phoenix");
 
 var router = express.Router();
 
