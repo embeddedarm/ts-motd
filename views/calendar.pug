@@ -2,6 +2,7 @@ extends layout
 
 block javascript
   script(src='/moment/moment.js')
+  script(src='/dragscroll/dragscroll.js')
   script(src='/moment/moment-timezone.js')
   script(src='/javascripts/calendar.js')
   script(src='/javascripts/idle-timer.min.js')
@@ -12,7 +13,7 @@ block javascript
 block content
   div.body-container
 
-    div.tpc-container
+    div.tpc-container.dragscroll
 
       div#authorize-div(style="display: none")
         span Authorize access to Google Calendar API

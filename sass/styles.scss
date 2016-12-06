@@ -266,6 +266,10 @@ div.tpc-container {
     overflow-x: auto;
 }
 
+div.tpc-container.dragscroll {
+    cursor: -webkit-grab;
+}
+
 .fadeout {
     display: none; // Until we're ready for it
     position: absolute;
