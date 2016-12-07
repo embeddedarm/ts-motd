@@ -52,7 +52,8 @@ div#guide {
   left: -1px;
   width: 800px;
   height: 600px;
-  border: 1px solid #dfefff;
+  border-right: 1px solid #dfefff;
+  border-bottom: 1px solid #dfefff;
   transition: left .5s;
 }
 
@@ -205,6 +206,13 @@ canvas {
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
+
+}
+
+button#clear-canvas {
+  position: absolute;
+  width: 180px;
+  top: 480px; // Otherwise, it'll hide behind nav-icons and won't be clickable
 }
 
 .fileUpload {
@@ -423,6 +431,13 @@ div.card.large {
   height: 304px;
 }
 
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
 /*
 ::-webkit-scrollbar {
       width: 15px;
