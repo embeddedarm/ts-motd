@@ -10,7 +10,7 @@ var size = require('gulp-size')
 
  
 gulp.task('sass', function () {
-  return gulp.src('./sass/**/*.scss')
+  return gulp.src('./sass/styles.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest('./public/stylesheets'));
 });
@@ -37,6 +37,9 @@ gulp.task('copy-javascripts', function() {
   .pipe(gulp.dest('./public/javascripts'));
 
   gulp.src('./lib/analytics.js')
+  .pipe(gulp.dest('./public/javascripts'));
+
+  gulp.src('./lib/jsKeyboard.js')
   .pipe(gulp.dest('./public/javascripts'));
 });
 
