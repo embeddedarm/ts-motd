@@ -1,0 +1,37 @@
+@import "variables";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
+
+html, body {
+  width:100%;
+  font-family: $primary-font;
+  font-weight: 300;
+}
+
+.body-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 1024px;
+}
+
+/* Slidedeck Manager */
+div#slidedeck-manager {
+  margin-top: 20px;
+
+  div#slide-manager {
+    img.image_picker_image {
+      max-width: 50px;
+    }
+  }
+
+  p#message {
+    color: white;
+  }
+  
+  form#slide-uploader {
+    margin-top: 20px;
+  }
+}
+
+/* END Slidedeck Manager */

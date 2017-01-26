@@ -9,8 +9,14 @@ var source = require('vinyl-source-stream')
 var size = require('gulp-size')
 
  
-gulp.task('sass', function () {
+gulp.task('sass-styles', function () {
   return gulp.src('./sass/styles.scss')
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('sass-manage-styles', function () {
+  return gulp.src('./sass/manage-styles.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest('./public/stylesheets'));
 });
@@ -36,6 +42,9 @@ gulp.task('copy-javascripts', function() {
   gulp.src('./lib/calendar.js')
   .pipe(gulp.dest('./public/javascripts'));
 
+  gulp.src('./lib/slidedeck.js')
+  .pipe(gulp.dest('./public/javascripts'));
+
   gulp.src('./lib/analytics.js')
   .pipe(gulp.dest('./public/javascripts'));
 
@@ -44,5 +53,5 @@ gulp.task('copy-javascripts', function() {
 });
 
 //gulp.task('default', ['sass', 'watch'])
-gulp.task('default', ['sass', 'browserify', 'copy-javascripts']);
+gulp.task('default', ['sass-styles', 'sass-manage-styles', 'browserify', 'copy-javascripts']);
 

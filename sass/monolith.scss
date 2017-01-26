@@ -248,6 +248,12 @@ div.tpc-container {
     overflow-x: auto;
 }
 
+div.tpc-container.slidedeck {
+   height:$tpc-height;
+   width:$tpc-width;
+   background: #fff;
+}
+
 div.tpc-container.dragscroll {
     cursor: -webkit-grab;
 }
@@ -426,3 +432,15 @@ div.card.large {
 }
 */
 
+ul#slidedeck {
+  max-height: $tpc-height;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+
+  img {
+    min-width: $tpc-width;;
+  }
+}

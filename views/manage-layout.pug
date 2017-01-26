@@ -3,15 +3,14 @@ html
   head
     title= title
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
-    link(rel='stylesheet', href='/stylesheets/styles.css')
+    link(rel='stylesheet', href='/stylesheets/manage-styles.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     block styles
+
     script(src="https://use.fontawesome.com/34ebf7ba8a.js")
     script(src='/jquery/jquery.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
     block javascript
   body
 
-    include includes/nav-icons.pug
-
     block content
-
-    div#virtualKeyboard(style="display:none;")

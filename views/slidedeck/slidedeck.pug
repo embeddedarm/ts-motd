@@ -1,0 +1,25 @@
+extends ../layout
+
+block javascript
+  script(src='/moment/moment.js')
+  script(src='/moment/moment-timezone.js')
+  script(src='/javascripts/slidedeck.js')
+  script(src='/javascripts/idle-timer.min.js')
+  script(type='text/javascript').
+      var slides =!{JSON.stringify(slides)}
+
+block content
+  div.body-container
+    div.tpc-container.slidedeck
+
+      ul#slidedeck
+        each slide in slides
+          li
+            img(src="/uploads/" + slide, alt="")
+        else
+            li Please upload slides to the slidedeck.
+    br
+    p
+      a(href="/slidedeck/manage").
+        Manage Slides
+

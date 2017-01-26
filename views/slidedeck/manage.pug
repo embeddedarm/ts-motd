@@ -1,0 +1,71 @@
+extends ../manage-layout
+
+block javascript
+  script(type='text/javascript').
+      var slides =!{JSON.stringify(slides)}
+      $(function() { 
+
+          $(".delete-slide").click(function(){
+
+              var filename = $(this).attr('id');
+              var row = $(this).parent().parent();
+
+              console.log('Delete: ' + filename);
+
+              var xhr = new XMLHttpRequest()
+              xhr.onload = onload
+              xhr.open('post', '/slidedeck/' + filename, true)
+              xhr.setRequestHeader('X-HTTP-Method-Override', 'DELETE')
+              xhr.send()
+              
+              function onload () {
+                  console.log("Deleted!" + filename);
+                  row.css("background-color","#f44336");
+                  row.fadeOut(500, function() {
+                      $(this).remove();
+                  });
+              }
+          }); 
+
+      });
+
+      
+block content
+  div.body-container#slidedeck-manager
+
+    if msg
+      div.alert.alert-success(role="alert")
+        #{msg}
+
+    p
+      a(href="/slidedeck").
+        View Slidedeck
+
+    form#slide-uploader(action="/slidedeck", enctype="multipart/form-data", method="POST")
+      .form-group
+        label(for='inputFiles') Upload new slides
+        input#inputFiles(type="file", name="photos", multiple=true)
+        input(type="submit", value="Upload")
+
+    div.panel.panel-default
+
+      div.panel-heading.clearfix
+        h4.panel-title.pull-left(style='padding-top: 7.5px;') Slidedeck
+
+      div.panel-body
+        table.table
+          thead
+            tr
+              th Remove 
+              th Thumbnail
+              th Filename 
+          tbody
+            each slide in slides
+              tr
+                th(scope='row')
+                  a.delete-slide(id=slide, href="#") 
+                    i.text-danger.fa.fa-trash
+                td
+                  img.thumbnail(src="/uploads/" + slide, width="128px")
+                td= slide
+
